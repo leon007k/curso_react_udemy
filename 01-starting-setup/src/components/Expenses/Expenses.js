@@ -1,25 +1,40 @@
 import React, { useState } from 'react';
-import ExpenseItem from './ExpenseItem';
 import Card from '../IU/Card';
 import ExpensesFilter from './ExpensesFilter';
+import ExpensesList from './ExpensesList';
 import './Expense.css';
 
 function Expenses(props) {
-  const [filteredYear, setFilteredYear] = useState('');
+  const [filteredYear, setFilteredYear] = useState('all');
+
+  // * actualizamos el año seleccionado
   const filterChangeHandler = selectedYear => {
     setFilteredYear(selectedYear);
-    console.log(filteredYear);
   }
 
+  // * Filtramos la lista de gasto por año
+  const filteredExpenses = props.data.filter(expense => {
+    // * si el usuario elije la primera opcion "Elije un año", se mostraran todos los gastos registrados
+    if (filteredYear === 'all') {
+      return expense.date.getFullYear() >= Math.min(expense.date.getFullYear());
+    } else {
+      return expense.date.getFullYear().toString() === filteredYear;
+    }
+  });
+
+  /**
+   * * Para que React pueda identificar cada uno de los elementos del array, y agregarlos correctamente
+   * * se requiere obtener un key, para cada uno de ellos, esto evitaria tener bugs, ya que por ejem. si un elemento
+   * * tiene alguna funcion en especifico, y al agregar otro mediante un arreglo, este perderia su funcion y la tomaria otro.
+   */
+
   return (
-    <Card className="expenses">
-      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {props.data.map(expense => <ExpenseItem title={expense.title} amount={expense.amount} date={expense.date} />)}
-      {/* <ExpenseItem title={props.data[0].title} amount={props.data[0].amount} date={props.data[0].date}></ExpenseItem>
-      <ExpenseItem title={props.data[1].title} amount={props.data[1].amount} date={props.data[1].date}></ExpenseItem>
-      <ExpenseItem title={props.data[2].title} amount={props.data[2].amount} date={props.data[2].date}></ExpenseItem>
-      <ExpenseItem title={props.data[3].title} amount={props.data[3].amount} date={props.data[3].date}></ExpenseItem> */}
-    </Card>
+    <li>
+      <Card className="expenses">
+        <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
+        <ExpensesList data={filteredExpenses} />
+      </Card>
+    </li>
   );
 }
 

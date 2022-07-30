@@ -8,37 +8,38 @@ import NewExpense from "./components/NewExpense/NewExpense";
 /**
  * # Podemos obtener los datos dinamicamente, agregandolos dentro de nuestra funcion y pasarlos a nuestro componente
  * # como se muestra acontinuacion
+ * ! new date("Moth-Day-Year")
  */
 const DUMMY_EXPENSES = [
   {
     id: 'e1',
     title: 'lavado de auto',
     amount: 140,
-    date: new Date(2022, 1, 18)
+    date: new Date("01-18-2022")
   },
   {
     id: 'e2',
     title: 'lavado de tenis',
     amount: 75,
-    date: new Date(2022, 4, 30)
+    date: new Date("04-30-2022")
   },
   {
     id: 'e3',
     title: 'despensa pequeña',
     amount: 201.50,
-    date: new Date(2022, 4, 20)
+    date: new Date("04-20-2022")
   },
   {
     id: 'e4',
     title: 'proteina nitrotech',
     amount: 998.50,
-    date: new Date(2021, 8, 15)
+    date: new Date("08-15-2021")
   },
   {
     id: 'e5',
     title: 'Galletas Maria',
     amount: 99.50,
-    date: new Date(2022, 7, 27)
+    date: new Date("07-27-2022")
   }
 ];
 

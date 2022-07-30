@@ -62,10 +62,11 @@ function ExpenseForm(props) {
   const submitHandler = (evt) => {
     evt.preventDefault();
 
+    // * new Date(variable + 'T00:00:00'), para que agregue la fecha correctamente
     const expenseData = {
       title: userInput.enteredTitle,
       amount: userInput.enteredNumber,
-      date: new Date(userInput.enteredDate)
+      date: new Date(userInput.enteredDate + 'T00:00:00')
     };
 
     // * obtenemos los datos para mandarlo al archivo newExpense.js
@@ -97,6 +98,7 @@ function ExpenseForm(props) {
         </div>
       </div>
       <div className="new-expense__actions">
+        <button onClick={props.onCancel}>Cancelar</button>
         <button type="submit">Agregar</button>
       </div>
     </form>

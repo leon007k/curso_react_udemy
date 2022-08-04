@@ -65,7 +65,7 @@ function ExpenseForm(props) {
     // * new Date(variable + 'T00:00:00'), para que agregue la fecha correctamente
     const expenseData = {
       title: userInput.enteredTitle,
-      amount: userInput.enteredNumber,
+      amount: +userInput.enteredNumber,
       date: new Date(userInput.enteredDate + 'T00:00:00')
     };
 

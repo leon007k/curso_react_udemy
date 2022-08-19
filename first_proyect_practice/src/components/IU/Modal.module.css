@@ -41,7 +41,8 @@
 }
 
 .modal-dialog{
-  position: relative;
+  z-index: 1061;
+  position: fixed;
   width: auto;
   margin: .5rem;
 }
@@ -112,7 +113,11 @@
 
 @media (min-width: 576px){
   .modal-dialog{
-    max-width: 500px;
+    width: 100%;
     margin: 1.75rem auto;
+  }
+  .modal-content{
+    max-width: 500px;
+    margin: 0 auto;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Card from "../IU/Card";
 import Button from "../IU/Button";
 import Modal from "../IU/Modal";
@@ -6,10 +6,14 @@ import style from "./UserInfo.module.css";
 
 export default function UserInfo(props) {
 
-  const [userData, setUserData] = useState({
-    userName: '',
-    userAge: ''
-  });
+  /*
+  # REACT HOOKS - USEREF
+  * se usa principalmente para crear una referencia del elemento DOM 
+  * o acceder directamente a el dentro de un componente funcional
+  * Devuelve un objeto de refenrencia mutable que llevara el valor a lo largo del componente
+  */
+  const nameInputRef = useRef(),
+    ageInputRef = useRef();
 
   // * We validate that age is correct
   const [isValid, setIsValid] = useState({
@@ -21,45 +25,19 @@ export default function UserInfo(props) {
   const [errorMessage, setErrorMessage] = useState('');
 
   // * Functions for data capture and shipping
-  const NameChangeHandler = evt => {
-    setUserData(prevData => {
-      return {
-        ...prevData,
-        userName: evt.target.value
-      };
-    });
-    setIsValid((prevData) => {
-      return {
-        ...prevData,
-        validName: true
-      };
-    });
-  };
-
-  const AgeChangeHandler = (evt) => {
-    setUserData(prevData => {
-      return {
-        ...prevData,
-        userAge: evt.target.value
-      };
-    });
-    setIsValid(prevData => {
-      return {
-        ...prevData,
-        validAge: true
-      };
-    });
-  };
-
-
   const submitHandler = (evt) => {
     evt.preventDefault();
 
-    let UserInfo;
-    //debugger
+    /*
+    * El valor que nos devuelve este hook, lo podemos tomar de current.value
+    */
+    let enteredName = nameInputRef.current.value,
+      enteredAge = ageInputRef.current.value,
+      UserInfo;
+    debugger
     // * Validation of the data entered
     switch (true) {
-      case (userData.userName.trim().length === 0 && userData.userAge.trim().length === 0):
+      case (enteredName.trim().length === 0 && enteredAge.trim().length === 0):
         setIsValid((prevData) => {
           return {
             ...prevData,
@@ -71,7 +49,7 @@ export default function UserInfo(props) {
           messageBody: <p>Disculpe las molestias, requerimos que ingrese todos sus datos correctamente</p>
         });
         break;
-      case (userData.userName.trim().length === 0):
+      case (enteredName.trim().length === 0):
         setIsValid((prevData) => {
           return {
             ...prevData,
@@ -83,7 +61,7 @@ export default function UserInfo(props) {
           messageBody: <p>Disculpe las molestias, requerimos que ingrese su nombre completo correctamente</p>
         });
         break;
-      case (userData.userAge.trim().length === 0 || parseInt(userData.userAge.trim()) < 1):
+      case (enteredAge.trim().length === 0 || parseInt(enteredAge.trim()) < 1):
         setIsValid((prevData) => {
           return {
             ...prevData,
@@ -95,15 +73,13 @@ export default function UserInfo(props) {
         // * We send the data only if they are correct
         UserInfo = {
           key: Math.random(),
-          name: userData.userName,
-          age: userData.userAge
+          name: enteredName,
+          age: enteredAge
         };
         props.onAddNewUser(UserInfo);
         // * Once the data is sent, we empty the fields
-        setUserData({
-          userName: '',
-          userAge: ''
-        });
+        nameInputRef.current.value = '';
+        ageInputRef.current.value = '';
         break;
     }
   };
@@ -123,11 +99,17 @@ export default function UserInfo(props) {
           <div className={style.add__newUser}>
             <div className={style.add__newUser_inputContainer}>
               <label htmlFor="userName" className={style.add__newUser_formLabel}>Nombre completo:</label>
-              <input id="userName" type="text" value={userData.userName} onChange={NameChangeHandler} className={style.add__newUser_formControl} />
+              <input id="userName" type="text"
+                className={style.add__newUser_formControl}
+                ref={nameInputRef}
+              />
             </div>
             <div className={style.add__newUser_inputContainer}>
               <label htmlFor="userAge" className={style.add__newUser_formLabel}>Edad (años):</label>
-              <input id="userAge" value={userData.userAge} onChange={AgeChangeHandler} className={`${style.add__newUser_formControl} ${!isValid.validAge && style.invalid}`} type="number" min="1" />
+              <input id="userAge"
+                className={`${style.add__newUser_formControl} ${!isValid.validAge && style.invalid}`}
+                ref={ageInputRef}
+                type="number" min="1" />
               {!isValid.validAge && <div className={style.add_newUser_formText}>Ingresa una edad correcta</div>}
             </div>
           </div>

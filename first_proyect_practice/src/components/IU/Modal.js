@@ -6,7 +6,7 @@ export default function Alert(props) {
 
   const Backdrop = (props) => {
     return (
-      <div className={`${style.modal} ${showModal}`} role="dialog" onClick={props.closeModal}></div>
+      <div className={`${style.modal} ${showModal}`} role="dialog" aria-label="Backdropbackdrop" onClick={props.closeModal}></div>
     );
   }
 

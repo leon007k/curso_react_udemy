@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
 import Input from '../../UI/Input';
 import style from './MealItemForm.module.css';
 
@@ -11,7 +11,7 @@ export default function MealItemForm(props) {
   };
 
   const inputProps = {
-    ref: amountInputRef
+    ref: amountInputRef,
     id: 'amount_' + props.id,
     type: 'number',
     min: '1',

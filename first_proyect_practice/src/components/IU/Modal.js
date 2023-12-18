@@ -11,7 +11,7 @@ export default function Alert(props) {
   }
 
   return (
-    <div className={`${style.modal} ${showModal}`} role="dialog" onClick={props.closeModal}>
+    <div className={`${style.modal} ${showModal}`} role="dialog" aria-label="Modal" onClick={props.closeModal}>
       <div className={`${style["modal-dialog"]} ${animationClose}`}>
         <div className={style["modal-content"]}>
           <div className={style["modal-header"]}>
